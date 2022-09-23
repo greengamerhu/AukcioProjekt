@@ -60,6 +60,7 @@ public class Festmeny {
                 licit(10);
 
             } else {
+                this.legutolsoLicitIdeje = LocalDate.now();
                 this.legmagasabbLicit += 100;
                 this.licitekSzama += 1;
             }
@@ -84,5 +85,28 @@ public class Festmeny {
             this.licitekSzama += 1;
             this.legutolsoLicitIdeje = LocalDate.now();
         }
+    }
+
+    @Override
+    public String toString() {
+        if (this.elkelt) {
+            return String.format("%s: %s (%s) \n %s \n %d$ - %s (összesen: %d)",
+                    this.festo,
+                    this.cim,
+                    this.stilus,
+                    "elkelt",
+                    this.legmagasabbLicit,
+                    this.legutolsoLicitIdeje,
+                    this.licitekSzama);
+        } else {
+            return String.format("%s: %s (%s) \n %d$ - %s (összesen: %d)",
+                    this.festo,
+                    this.cim,
+                    this.stilus,
+                    this.legmagasabbLicit,
+                    this.legutolsoLicitIdeje,
+                    this.licitekSzama);
+        }
+
     }
 }
