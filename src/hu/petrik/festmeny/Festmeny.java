@@ -57,18 +57,7 @@ public class Festmeny {
         }
         else  {
             if (this.legmagasabbLicit >= 100) {
-                int ertek = (int) (this.legmagasabbLicit * 1.1);
-                String szoveg = String.valueOf(ertek).toString();
-                String vegeredmeny;
-                StringBuilder formazottertek = new StringBuilder(String.valueOf(ertek).substring(0,2));
-                vegeredmeny = formazottertek.toString();
-                for (int i = 0; i < szoveg.length()-2; i++) {
-                    vegeredmeny += "0";
-                }
-                this.legmagasabbLicit =  Integer.parseInt(String.valueOf(vegeredmeny));
-                System.out.println("" + this.legmagasabbLicit);
-                this.licitekSzama += 1;
-                 this.legutolsoLicitIdeje = LocalDate.now();
+                licit(10);
 
             } else {
                 this.legmagasabbLicit += 100;
@@ -78,6 +67,22 @@ public class Festmeny {
         }
     }
     public void licit(int mertek) {
-
+        if (mertek < 10 || mertek > 100) {
+            System.out.println("Hiba");
+        } else {
+            double szam = mertek;
+            int ertek = this.legmagasabbLicit + (int) (this.legmagasabbLicit * szam / 100);
+            String szoveg = String.valueOf(ertek).toString();
+            String vegeredmeny;
+            StringBuilder formazottertek = new StringBuilder(String.valueOf(ertek).substring(0,2));
+            vegeredmeny = formazottertek.toString();
+            for (int i = 0; i < szoveg.length()-2; i++) {
+                vegeredmeny += "0";
+            }
+            this.legmagasabbLicit =  Integer.parseInt(String.valueOf(vegeredmeny));
+            System.out.println("" + this.legmagasabbLicit);
+            this.licitekSzama += 1;
+            this.legutolsoLicitIdeje = LocalDate.now();
+        }
     }
 }
