@@ -1,6 +1,8 @@
 package hu.petrik.festmeny;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Festmeny {
     private String cim;
@@ -8,7 +10,7 @@ public class Festmeny {
     private String stilus;
     private int licitekSzama;
     private int legmagasabbLicit;
-    private LocalDate legutolsoLicitIdeje;
+    private LocalDateTime legutolsoLicitIdeje;
     private boolean elkelt;
 
 
@@ -39,7 +41,7 @@ public class Festmeny {
         return legmagasabbLicit;
     }
 
-    public LocalDate getLegutolsoLicitIdeje() {
+    public LocalDateTime getLegutolsoLicitIdeje() {
         return legutolsoLicitIdeje;
     }
 
@@ -60,7 +62,7 @@ public class Festmeny {
                 licit(10);
 
             } else {
-                this.legutolsoLicitIdeje = LocalDate.now();
+                this.legutolsoLicitIdeje = LocalDateTime.now();
                 this.legmagasabbLicit += 100;
                 this.licitekSzama += 1;
             }
@@ -83,12 +85,20 @@ public class Festmeny {
             this.legmagasabbLicit =  Integer.parseInt(String.valueOf(vegeredmeny));
             System.out.println("" + this.legmagasabbLicit);
             this.licitekSzama += 1;
-            this.legutolsoLicitIdeje = LocalDate.now();
+            this.legutolsoLicitIdeje = LocalDateTime.now();
         }
     }
 
     @Override
     public String toString() {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formazott;
+        if (this.getLegutolsoLicitIdeje() != null) {
+            formazott = this.getLegutolsoLicitIdeje().format(formatter);
+        } else {
+            formazott = "Még nincs";
+        }
         if (this.elkelt) {
             return String.format("%s: %s (%s) \n %s \n %d$ - %s (összesen: %d)",
                     this.festo,
@@ -96,7 +106,7 @@ public class Festmeny {
                     this.stilus,
                     "elkelt",
                     this.legmagasabbLicit,
-                    this.legutolsoLicitIdeje,
+                    formazott,
                     this.licitekSzama);
         } else {
             return String.format("%s: %s (%s) \n %d$ - %s (összesen: %d)",
@@ -104,7 +114,7 @@ public class Festmeny {
                     this.cim,
                     this.stilus,
                     this.legmagasabbLicit,
-                    this.legutolsoLicitIdeje,
+                    formazott,
                     this.licitekSzama);
         }
 
