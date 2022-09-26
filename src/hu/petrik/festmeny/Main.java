@@ -67,8 +67,13 @@ public class Main {
         int sorszam = 1;
         String szoveg;
         int szazalek = 10;
+        Duration duration = null;
+        for (Festmeny f : festmenyek) {
+            System.out.println(f);
+        }
 
         while (true) {
+            duration = null;
             try {
                 System.out.printf("Adjon meg egy sorszámot %d - %d: ", 1, festmenyek.size());
                 sorszam = sc.nextInt();
@@ -87,8 +92,10 @@ public class Main {
 
             if (sorszam > -1 && sorszam <= festmenyek.size()) {
                 sorszam -= 1;
-                Duration duration = Duration.between(festmenyek.get(sorszam).getLegutolsoLicitIdeje(), LocalDateTime.now());
-                if (duration.getSeconds() < 120) {
+                if (festmenyek.get(sorszam).getLegutolsoLicitIdeje() != null) {
+                     duration = Duration.between(festmenyek.get(sorszam).getLegutolsoLicitIdeje(), LocalDateTime.now());
+                }
+                if ( duration == null || duration.getSeconds() < 120) {
                     if (!festmenyek.get(sorszam).isElkelt()) {
                         sc.nextLine();
                         System.out.print("Kérlek adjon meg egy százalékot (10-100): ");
@@ -118,8 +125,10 @@ public class Main {
                         System.out.println("Ez a festmény már elkelt :(");
                     }
                 } else {
-                    festmenyek.get(sorszam).setElkelt(true);
-                    System.out.println("Ez a festmény már elkelt :( túl későn licitált rá :(");
+                    if (festmenyek.get(sorszam).getLegutolsoLicitIdeje() != null) {
+                        festmenyek.get(sorszam).setElkelt(true);
+                        System.out.println("Ez a festmény már elkelt :( túl későn licitált rá :(");
+                    }
                 }
 
 
@@ -133,6 +142,18 @@ public class Main {
         for (int i = 0; i < festmenyek.size(); i++) {
             System.out.println(festmenyek.get(i));
         }
+
+
+        Festmeny legdragabb = festmenyek.get(0);
+        for (Festmeny f : festmenyek) {
+            if (f.getLegmagasabbLicit() >= legdragabb.getLegmagasabbLicit()){
+                legdragabb = f;
+        }
+        }
+
+        System.out.println("\n" + legdragabb);
+
+
 
     }
 

@@ -119,7 +119,7 @@ public class Festmeny {
             formazott = "Még nincs";
         }
         if (this.elkelt) {
-            return String.format("%s: %s (%s) \n %s \n %d$ - %s (összesen: %d)",
+            return String.format("%s: %s (%s) \n %s \n %d$ - %s (összesen: %d)\n",
                     this.festo,
                     this.cim,
                     this.stilus,
@@ -128,7 +128,7 @@ public class Festmeny {
                     formazott,
                     this.licitekSzama);
         } else {
-            return String.format("%s: %s (%s) \n %d$ - %s (összesen: %d)",
+            return String.format("%s: %s (%s) \n %d$ - %s (összesen: %d)\n",
                     this.festo,
                     this.cim,
                     this.stilus,
