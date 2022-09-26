@@ -1,8 +1,13 @@
 package hu.petrik.festmeny;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Festmeny {
     private String cim;
@@ -53,6 +58,7 @@ public class Festmeny {
         this.elkelt = elkelt;
     }
 
+
     public void licit() {
         if (this.elkelt ) {
             System.out.println("Ez a festmény már elkelt");
@@ -72,20 +78,25 @@ public class Festmeny {
     public void licit(int mertek) {
         if (mertek < 10 || mertek > 100) {
             System.out.println("Hiba");
-        } else {
-            double szam = mertek;
-            int ertek = this.legmagasabbLicit + (int) (this.legmagasabbLicit * szam / 100);
-            String szoveg = String.valueOf(ertek).toString();
-            String vegeredmeny;
-            StringBuilder formazottertek = new StringBuilder(String.valueOf(ertek).substring(0,2));
-            vegeredmeny = formazottertek.toString();
-            for (int i = 0; i < szoveg.length()-2; i++) {
-                vegeredmeny += "0";
+        }  else {
+            if (this.legmagasabbLicit < 100) {
+                licit();
             }
-            this.legmagasabbLicit =  Integer.parseInt(String.valueOf(vegeredmeny));
-            System.out.println("" + this.legmagasabbLicit);
-            this.licitekSzama += 1;
-            this.legutolsoLicitIdeje = LocalDateTime.now();
+            else {
+                double szam = mertek;
+                int ertek = this.legmagasabbLicit + (int) (this.legmagasabbLicit * szam / 100);
+                String szoveg = String.valueOf(ertek).toString();
+                String vegeredmeny;
+                StringBuilder formazottertek = new StringBuilder(String.valueOf(ertek).substring(0, 2));
+                vegeredmeny = formazottertek.toString();
+                for (int i = 0; i < szoveg.length() - 2; i++) {
+                    vegeredmeny += "0";
+                }
+                this.legmagasabbLicit = Integer.parseInt(String.valueOf(vegeredmeny));
+                System.out.println("" + this.legmagasabbLicit);
+                this.licitekSzama += 1;
+                this.legutolsoLicitIdeje = LocalDateTime.now();
+            }
         }
     }
 

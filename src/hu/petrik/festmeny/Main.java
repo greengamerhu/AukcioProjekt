@@ -1,11 +1,13 @@
 package hu.petrik.festmeny;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         List<Festmeny> festmenyek = new ArrayList<>();
 
         Festmeny f1 = new Festmeny("asd", "Van danieé","Goth");
@@ -38,10 +40,28 @@ public class Main {
             festmenyek.add(new Festmeny(festmenyNev,festoNeve, stilus));
             festmenyMennyiseg--;
         }
+        Festmenyek festmenylista = null;
+        String fajlNev = "festmenyek.csv";
+        try {
+           festmenylista =  new Festmenyek(fajlNev);
+        } catch (FileNotFoundException e) {
+            System.out.printf("A %s nem található\n", fajlNev);
+        } catch (IOException e) {
+            System.out.println("ISmeretlen hiba történt");
+        }
+        festmenyek.addAll(festmenylista.getLista());
+
+
+        for (int i = 0; i < 20; i++) {
+            int index = (int)(Math.random()*(festmenyek.size()-0+1)+0);
+            int szazalek = (int)(Math.random()*(100-10+1)+10);
+            festmenyek.get(index).licit(szazalek);
+        }
+
         for (int i = 0; i < festmenyek.size(); i++) {
             System.out.println(festmenyek.get(i));
         }
 
-        System.out.println(f1);
     }
+
 }
