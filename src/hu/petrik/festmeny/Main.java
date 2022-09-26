@@ -4,10 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -81,7 +78,9 @@ public class Main {
             }
             if (sorszam == 0){
                 for (int i = 0; i < festmenyek.size(); i++) {
-                    festmenyek.get(i).setElkelt(true);
+                    if (festmenyek.get(i).getLicitekSzama() > 0) {
+                        festmenyek.get(i).setElkelt(true);
+                    }
                 }
                 break;
             }
