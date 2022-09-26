@@ -1,8 +1,6 @@
 package hu.petrik.festmeny;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +20,20 @@ public class Festmenyek {
         br.close();
         fr.close();
     }
+
     public List<Festmeny> getLista() {
         return this.festmenyek;
+    }
+    public void festmenyKiirCSV(List<Festmeny> lista) {
+        try {
+            FileWriter fw= new FileWriter(new File("festmenyek_rendezett.csv"));
+            PrintWriter pw = new PrintWriter(fw);
+            for (Festmeny f : lista) {
+                pw.print(f);
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

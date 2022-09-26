@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9a17ff1d-e12c-4078-9dba-473876768647" name="Changes" comment="Minor bugfix: Csak a licittel rendelkező festmények fognak elkelt állapotba kerülni ha a felhasználó kilépett a licitből">
+    <list default="true" id="9a17ff1d-e12c-4078-9dba-473876768647" name="Changes" comment="A duration változoval voltak problémák">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/hu/petrik/festmeny/Festmeny.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/hu/petrik/festmeny/Festmeny.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hu/petrik/festmeny/Festmenyek.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/hu/petrik/festmeny/Festmenyek.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/hu/petrik/festmeny/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/hu/petrik/festmeny/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -96,7 +97,14 @@
       <option name="project" value="LOCAL" />
       <updated>1664215411411</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="A duration változoval voltak problémák">
+      <created>1664219002546</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1664219002546</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -117,7 +125,8 @@
     <MESSAGE value="Fájl beovasás kész, Program licit kész, program licithez átalakítva a licit() metodus" />
     <MESSAGE value="Major Bugfixes, works as intended, 2.feladat maxolva" />
     <MESSAGE value="Minor bugfix: Csak a licittel rendelkező festmények fognak elkelt állapotba kerülni ha a felhasználó kilépett a licitből" />
-    <option name="LAST_COMMIT_MESSAGE" value="Minor bugfix: Csak a licittel rendelkező festmények fognak elkelt állapotba kerülni ha a felhasználó kilépett a licitből" />
+    <MESSAGE value="A duration változoval voltak problémák" />
+    <option name="LAST_COMMIT_MESSAGE" value="A duration változoval voltak problémák" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

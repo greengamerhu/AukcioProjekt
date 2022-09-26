@@ -1,7 +1,6 @@
 package hu.petrik.festmeny;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -10,9 +9,9 @@ public class Main {
     public static void main(String[] args) throws IOException {
         List<Festmeny> festmenyek = new ArrayList<>();
 
-        Festmeny f1 = new Festmeny("asd", "Van danieé","Goth");
+        Festmeny f1 = new Festmeny("asd", "Van danieé", "Goth");
         f1.licit();
-        Festmeny f2 = new Festmeny("das", "Leornado Da...","idk");
+        Festmeny f2 = new Festmeny("das", "Leornado Da...", "idk");
 
         festmenyek.add(f1);
         festmenyek.add(f2);
@@ -27,17 +26,17 @@ public class Main {
         while (festmenyMennyiseg != 0) {
 
             System.out.print("Adja meg festmény Nevét: ");
-            festmenyNev  = sc.nextLine().toString();
+            festmenyNev = sc.nextLine().toString();
             sc.nextLine();
             System.out.print("Adja meg Festő nevét: ");
-            festoNeve =  sc.nextLine().toString();
+            festoNeve = sc.nextLine().toString();
             sc.nextLine();
 
             System.out.print("Adja meg a stílust: ");
             stilus = sc.nextLine().toString();
             sc.nextLine();
 
-            festmenyek.add(new Festmeny(festmenyNev,festoNeve, stilus));
+            festmenyek.add(new Festmeny(festmenyNev, festoNeve, stilus));
             festmenyMennyiseg--;
         }
         f1.setElkelt(true);
@@ -45,7 +44,7 @@ public class Main {
         Festmenyek festmenylista = null;
         String fajlNev = "festmenyek.csv";
         try {
-           festmenylista =  new Festmenyek(fajlNev);
+            festmenylista = new Festmenyek(fajlNev);
         } catch (FileNotFoundException e) {
             System.out.printf("A %s nem található\n", fajlNev);
         } catch (IOException e) {
@@ -55,8 +54,8 @@ public class Main {
 
 
         for (int i = 0; i < 20; i++) {
-            int index = (int)(Math.random()*((festmenyek.size()-1)+1)+0);
-            int szazalek = (int)(Math.random()*(100-10+1)+10);
+            int index = (int) (Math.random() * ((festmenyek.size() - 1) + 1) + 0);
+            int szazalek = (int) (Math.random() * (100 - 10 + 1) + 10);
             try {
                 festmenyek.get(index).licit(szazalek);
             } catch (Exception e) {
@@ -81,7 +80,7 @@ public class Main {
                 System.out.println("Nem sorszámot adott meg");
                 break;
             }
-            if (sorszam == 0){
+            if (sorszam == 0) {
                 for (int i = 0; i < festmenyek.size(); i++) {
                     if (festmenyek.get(i).getLicitekSzama() > 0) {
                         festmenyek.get(i).setElkelt(true);
@@ -93,9 +92,9 @@ public class Main {
             if (sorszam > -1 && sorszam <= festmenyek.size()) {
                 sorszam -= 1;
                 if (festmenyek.get(sorszam).getLegutolsoLicitIdeje() != null) {
-                     duration = Duration.between(festmenyek.get(sorszam).getLegutolsoLicitIdeje(), LocalDateTime.now());
+                    duration = Duration.between(festmenyek.get(sorszam).getLegutolsoLicitIdeje(), LocalDateTime.now());
                 }
-                if ( duration == null || duration.getSeconds() < 120) {
+                if (duration == null || duration.getSeconds() < 120) {
                     if (!festmenyek.get(sorszam).isElkelt()) {
                         sc.nextLine();
                         System.out.print("Kérlek adjon meg egy százalékot (10-100): ");
@@ -139,22 +138,63 @@ public class Main {
         }
 
 
-        for (int i = 0; i < festmenyek.size(); i++) {
-            System.out.println(festmenyek.get(i));
+        for (Festmeny festmeny : festmenyek) {
+            System.out.println(festmeny);
         }
+        System.out.println("_-----------------------------------------------------------------------------------------------------------------------------------------------------------------");
 
 
         Festmeny legdragabb = festmenyek.get(0);
         for (Festmeny f : festmenyek) {
-            if (f.getLegmagasabbLicit() >= legdragabb.getLegmagasabbLicit()){
+            if (f.getLegmagasabbLicit() >= legdragabb.getLegmagasabbLicit()) {
                 legdragabb = f;
+            }
         }
-        }
-
+        System.out.println("A legdrágábban elkelt festmény: ");
         System.out.println("\n" + legdragabb);
 
+        boolean vane10plusz = false;
 
+        for (Festmeny f : festmenyek) {
+            if (f.getLicitekSzama() > 10) {
+                vane10plusz = true;
+            }
+        }
+        System.out.printf("%s olyan festmény amire 10+ licit érkezett", vane10plusz ? "Volt" : "Nem volt");
 
+        int db = 0;
+        for (Festmeny f : festmenyek) {
+            if (!f.isElkelt()) {
+                db += 1;
+            }
+        }
+        Collections.sort(festmenyek, new Comparator<Festmeny>() {
+            @Override
+            public int compare(Festmeny o1, Festmeny o2) {
+                if (o1.getLegmagasabbLicit() < o2.getLegmagasabbLicit()) {
+                    return 1;
+                } else if (o1.getLegmagasabbLicit() > o2.getLegmagasabbLicit()) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            }
+        });
+        for (Festmeny f : festmenyek) {
+            System.out.println(f);
+        }
+
+        try {
+            FileWriter fw= new FileWriter(new File("festmenyek_rendezett.csv"));
+            PrintWriter pw = new PrintWriter(fw);
+            for (Festmeny f : festmenyek) {
+                pw.write(f.toString());
+            }
+            pw.close();
+            fw.close();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
-
 }
