@@ -2,7 +2,10 @@ package hu.petrik.festmeny;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -40,6 +43,8 @@ public class Main {
             festmenyek.add(new Festmeny(festmenyNev,festoNeve, stilus));
             festmenyMennyiseg--;
         }
+        f1.setElkelt(true);
+
         Festmenyek festmenylista = null;
         String fajlNev = "festmenyek.csv";
         try {
@@ -53,10 +58,78 @@ public class Main {
 
 
         for (int i = 0; i < 20; i++) {
-            int index = (int)(Math.random()*(festmenyek.size()-0+1)+0);
+            int index = (int)(Math.random()*((festmenyek.size()-1)+1)+0);
             int szazalek = (int)(Math.random()*(100-10+1)+10);
-            festmenyek.get(index).licit(szazalek);
+            try {
+                festmenyek.get(index).licit(szazalek);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
+
+        int sorszam = 1;
+        String szoveg;
+        int szazalek = 10;
+
+        while (true) {
+            try {
+                System.out.printf("Adjon meg egy sorszámot %d - %d: ", 1, festmenyek.size());
+                sorszam = sc.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Nem sorszámot adott meg");
+                break;
+            }
+            if (sorszam == 0){
+                for (int i = 0; i < festmenyek.size(); i++) {
+                    festmenyek.get(i).setElkelt(true);
+                }
+                break;
+            }
+
+            if (sorszam > -1 && sorszam <= festmenyek.size()) {
+                sorszam -= 1;
+                Duration duration = Duration.between(festmenyek.get(sorszam).getLegutolsoLicitIdeje(), LocalDateTime.now());
+                if (duration.getSeconds() < 120) {
+                    if (!festmenyek.get(sorszam).isElkelt()) {
+                        sc.nextLine();
+                        System.out.print("Kérlek adjon meg egy százalékot (10-100): ");
+                        szoveg = sc.nextLine();
+                        try {
+                            szazalek = Integer.parseInt(szoveg);
+                        } catch (NumberFormatException exp) {
+                            if (szoveg.isEmpty()) {
+                                try {
+                                    festmenyek.get(sorszam).licit(10);
+                                } catch (Exception e) {
+                                    throw new RuntimeException(e);
+                                }
+
+                            } else {
+                                System.out.println(szoveg + "Nem egy érvényes százalék ");
+                                break;
+                            }
+                        }
+                        try {
+                            festmenyek.get(sorszam).licit(szazalek);
+
+                        } catch (Exception e) {
+                            System.out.println(e);
+                        }
+                    } else {
+                        System.out.println("Ez a festmény már elkelt :(");
+                    }
+                } else {
+                    festmenyek.get(sorszam).setElkelt(true);
+                    System.out.println("Ez a festmény már elkelt :( túl későn licitált rá :(");
+                }
+
+
+            } else {
+                System.out.println("Nem jó sorszámot adott meg");
+            }
+
+        }
+
 
         for (int i = 0; i < festmenyek.size(); i++) {
             System.out.println(festmenyek.get(i));
